@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     String bgImage = 'night.jpeg';
     Color? bgColor = Colors.indigo[700];
 
-    if (data['isDayTime'] != null && data['isDayTime'] == false) {
+    if (data['isDayTime'] != null && data['isDayTime'] == true) {
       bgImage = 'morning.jpeg';
       bgColor = Colors.blue;
     }
