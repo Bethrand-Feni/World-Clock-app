@@ -27,8 +27,8 @@ class WorldTime {
 
       // // create DataTime object
       DateTime now = DateTime.parse(datetime);
-      print(now.hour);
       isDayTime = now.hour > 6 && now.hour < 20 ? true : false;
+      print("IsDayTime");
       print(isDayTime);
       time = DateFormat.jm().format(now);
     } catch (e) {

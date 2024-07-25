@@ -13,20 +13,14 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final routeData = ModalRoute.of(context)?.settings.arguments;
     if (routeData is Map<String, dynamic>){
-      data = routeData;
+      if(data.isEmpty) {
+        data = routeData;
+      }
     }
-    print(data);
-
     //set background
-    String bgImage = 'night.jpeg';
-    Color? bgColor = Colors.indigo[700];
+    String bgImage = data['isDayTime'] ? 'morning.jpeg'  : 'night.jpeg';
+    Color? bgColor = data['isDayTime'] ? Colors.blue : Colors.indigo[700];
 
-    if (data['isDayTime'] != null && data['isDayTime'] == true) {
-      bgImage = 'morning.jpeg';
-      bgColor = Colors.blue;
-    }
-
-    print(bgImage);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -43,11 +37,25 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 FloatingActionButton.extended(
-                    onPressed: (){
-                      Navigator.pushNamed(context,'/location');
-                    },
+                    onPressed: () async{
+                      dynamic result = await Navigator.pushNamed(context,'/location');
+                      setState(() {
+                          data = {
+                            'time': result['time'],
+                            'location': result['location'],
+                            'isDayTime': result['isDayTime'],
+                            'flag': result['flag']
+                          };
+                      });
+                      },
                     icon: Icon(Icons.edit_location),
                     label: Text('Edit locatoion'),
+                    backgroundColor: Colors.blueAccent,
+                    foregroundColor: Colors.white,
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
                 SizedBox(height: 20.0,),
                 Row(
